@@ -93,17 +93,18 @@ bool_t listInsertAtEnding(struct ListNode **list, int data)
 // Time complexity : O(n) because travelling all the list in the worst case
 bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
 {
-    struct ListNode *element = (struct ListNode*)malloc(sizeof(struct ListNode));
+    struct ListNode *element;
     struct ListNode *temp;
-
-    if (element == NULL) return FALSE;
-
-    element->data = data;
 
     // If pos < 1, then insert at the beginning
     if (pos < 1)
     {
+        // Repetitive code...
+        element = (struct ListNode*)malloc(sizeof(struct ListNode));
+        if (element == NULL) return FALSE;
+        element->data = data;
         element->next = *list;
+
         *list = element;
         return TRUE;
     }
@@ -119,12 +120,12 @@ bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
     for (temp = *list; --pos && temp != NULL; temp = temp->next);
 
     // pos is too far
-    if (temp == NULL)
-    {
-        // Bad : we allocated memory for nothing...
-        free(element);
-        return FALSE;
-    }
+    if (temp == NULL) return FALSE;
+
+    // Repetitive code...
+    element = (struct ListNode*)malloc(sizeof(struct ListNode));
+    if (element == NULL) return FALSE;
+    element->data = data;
 
     // Now temp is the pos - 1 element, so we can change it's next pointer
     element->next = temp->next;
@@ -169,7 +170,58 @@ bool_t listCompareToArray(struct ListNode *list, int array[], int length)
     return TRUE;
 }
 
-void listDelete(struct ListNode *list)
+// Delete the first node of the list
+// Space complexity : O(1)
+// Time complexity : O(1)
+bool_t listDeleteAtBeginning(struct ListNode **list)
+{
+    struct ListNode *toRemove;
+
+    if (*list == NULL) return FALSE;
+
+    // Store the actual first node
+    toRemove = *list;
+    // Set the first node of the list to the previous second node
+    *list = (*list)->next;
+    // Now, free the memory of the previous first node
+    free(toRemove);
+
+    return TRUE;
+}
+
+// Delete the last element of the list
+// Space complexity : O(1)
+// Time complexity : O(n)
+bool_t listDeleteAtEnding(struct ListNode **list)
+{
+    struct ListNode *temp;
+
+    // Don't do anything
+    if (*list == NULL) return FALSE;
+
+    // If the list is 1 element length
+    if ((*list)->next == NULL)
+    {
+        // Then free the element
+        free((*list)->next);
+        // And set the list point to NULL
+        *list = NULL;
+
+        return TRUE;
+    }
+
+    // Reach the before last element
+    for (temp = *list; temp->next->next != NULL; temp = temp->next);
+
+    // Then free the memory of the last
+    free(temp->next);
+    // And set the pointer to NULL
+    temp->next = NULL;
+    
+    return TRUE;
+}
+
+bool_t listDelete(struct ListNode *list)
 {
 
 }

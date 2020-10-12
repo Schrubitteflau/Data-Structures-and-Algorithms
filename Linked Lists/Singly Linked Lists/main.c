@@ -12,6 +12,7 @@ void    compareListToArray(struct ListNode *list, int array[], int length, char 
 void    testListInsertAtBeginning(struct ListNode **list, int expected[], int expectedLength);
 void    testListInsertAtEnding(struct ListNode **list, int expected[], int expectedLength);
 void    testListInsertAtPosition(struct ListNode **list, int expected[], int expectedLength);
+void    testListDeleteAtBeginning(struct ListNode **list, int expected[], int expectedLength);
 
 int main(void)
 {
@@ -57,6 +58,21 @@ int main(void)
     testListInsertAtPosition(&list1, _3_expected1, SIZE_TAB_INT(_3_expected1));
     testListInsertAtPosition(&list2, _3_expected2, SIZE_TAB_INT(_3_expected2));
     testListInsertAtPosition(&list3, _3_expected3, SIZE_TAB_INT(_3_expected3));
+
+    // Testing listDeleteAtBeginning() function :
+    int _4_expected1[] = { },
+        _4_expected2[] = { },
+        _4_expected3[] = { 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    list1 = getTestList1(),
+    list2 = getTestList2(),
+    list3 = getTestList3();
+
+    testListDeleteAtBeginning(&list1, _4_expected1, SIZE_TAB_INT(_4_expected1));
+    testListDeleteAtBeginning(&list2, _4_expected2, SIZE_TAB_INT(_4_expected2));
+    testListDeleteAtBeginning(&list3, _4_expected3, SIZE_TAB_INT(_4_expected3));
+
+    list1 = getTestList2();
+    listDeleteAtEnding(&list1);
 
     return 0;
 }
@@ -109,6 +125,18 @@ void testListInsertAtPosition(struct ListNode **list, int expected[], int expect
 
     // With { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 } :
     // 5 1 3 4 1 2 3 4 5 2 6 7 8 9 10 5
+
+    // Then compare the list values to the expected list of values
+    compareListToArray(*list, expected, expectedLength, testName, n++);
+}
+
+void testListDeleteAtBeginning(struct ListNode **list, int expected[], int expectedLength)
+{
+    static int n = 0;
+    static char testName[] = "DeleteAtBeginning";
+
+    // Do some stuff to the list...
+    listDeleteAtBeginning(list);
 
     // Then compare the list values to the expected list of values
     compareListToArray(*list, expected, expectedLength, testName, n++);

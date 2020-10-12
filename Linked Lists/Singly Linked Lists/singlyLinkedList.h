@@ -19,7 +19,10 @@ bool_t              listInsertAtBeginning(struct ListNode **list, int data);
 bool_t              listInsertAtEnding(struct ListNode **list, int data);
 bool_t              listInsertAtPosition(struct ListNode **list, int data, int pos);
 struct ListNode*    listCreateFromValues(int values[], int length);
-void                listDelete(struct ListNode *list);
 bool_t              listCompareToArray(struct ListNode *list, int array[], int length);
+bool_t              listDeleteAtBeginning(struct ListNode **list);
+bool_t              listDeleteAtEnding(struct ListNode **list);
+bool_t              listDelete(struct ListNode *list);
+
 
 #endif
