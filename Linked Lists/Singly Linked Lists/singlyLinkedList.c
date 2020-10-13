@@ -4,6 +4,33 @@
 #include "singlyLinkedList.h"
 
 
+// Returns an empty list
+struct ListNode* listCreateEmpty()
+{
+    return NULL;
+}
+
+// Returns a pointer to the new ListNode, or NULL if malloc() failed
+struct ListNode* listCreateNode(int data, struct ListNode *next)
+{
+    struct ListNode *ret = (struct ListNode*)malloc(sizeof(struct ListNode));
+
+    if (ret != NULL)
+    {
+        ret->data = data;
+        ret->next = next;
+    }
+
+    return ret;
+}
+
+// Returns TRUE if the list is empty, or FALSE
+bool_t listIsEmpty(struct ListNode *list)
+{
+    // 1 (TRUE) or 0 (FALSE)
+    return (list == NULL);
+}
+
 // Print the data of the list
 // Space Complexity : O(1) for creating 1 local variable
 // Time Complexity : O(n) for traversing all the elements of the list
@@ -44,12 +71,12 @@ int listLength(struct ListNode *list)
 // Time Complexity : O(1)
 bool_t listInsertAtBeginning(struct ListNode **list, int data)
 {
-    struct ListNode* element = (struct ListNode*)malloc(sizeof(struct ListNode));
+    struct ListNode* element = listCreateNode(data, *list);
 
-    if (element == NULL) return FALSE;
-
-    element->data = data;
-    element->next = *list;
+    if (element == NULL)
+    {
+        return FALSE;
+    }
 
     *list = element;
 
@@ -62,17 +89,17 @@ bool_t listInsertAtBeginning(struct ListNode **list, int data)
 // Time Complexity : O(n) because travelling all the list
 bool_t listInsertAtEnding(struct ListNode **list, int data)
 {
-    struct ListNode* element = (struct ListNode*)malloc(sizeof(struct ListNode));
+    // We already know that element->next will be NULL, because it will be the last element
+    struct ListNode* element = listCreateNode(data, NULL);
     struct ListNode* temp;
 
-    if (element == NULL) return FALSE;
+    if (element == NULL)
+    {
+        return FALSE;
+    }
 
-    element->data = data;
-    // We already know that element->next will be NULL, because this is the last element
-    element->next = NULL;
-
-    // The new element become the list
-    if (*list == NULL)
+    // If the list is empty, then the new element become the list
+    if (listIsEmpty(*list))
     {
         *list = element;
         return TRUE;
@@ -99,11 +126,11 @@ bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
     // If pos < 1, then insert at the beginning
     if (pos < 1)
     {
-        // Repetitive code...
-        element = (struct ListNode*)malloc(sizeof(struct ListNode));
-        if (element == NULL) return FALSE;
-        element->data = data;
-        element->next = *list;
+        element = listCreateNode(data, *list);
+        if (element == NULL)
+        {
+            return FALSE;
+        }
 
         *list = element;
         return TRUE;
@@ -120,15 +147,18 @@ bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
     for (temp = *list; --pos && temp != NULL; temp = temp->next);
 
     // pos is too far
-    if (temp == NULL) return FALSE;
+    if (temp == NULL)
+    {
+        return FALSE;
+    }
 
-    // Repetitive code...
-    element = (struct ListNode*)malloc(sizeof(struct ListNode));
-    if (element == NULL) return FALSE;
-    element->data = data;
+    element = listCreateNode(data, temp->next);
+    if (element == NULL)
+    {
+        return FALSE;
+    }
 
     // Now temp is the pos - 1 element, so we can change it's next pointer
-    element->next = temp->next;
     temp->next = element;
     
     return TRUE;
@@ -137,7 +167,7 @@ bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
 // Return a new list filled with values
 struct ListNode* listCreateFromValues(int values[], int length)
 {
-    struct ListNode *list = NULL;
+    struct ListNode *list = listCreateEmpty();
 
     // Loop over values and insert them as node : we start from the end of the array to call
     // listInsertAtBeginning() which is O(1) instead of listInsertAtEnding() which is O(n)
@@ -160,7 +190,7 @@ bool_t listCompareToArray(struct ListNode *list, int array[], int length)
 {
     for (int i = 0; i < length; i++)
     {
-        if (list == NULL || list->data != array[i])
+        if (listIsEmpty(list) || list->data != array[i])
         {
             return FALSE;
         }
@@ -177,7 +207,10 @@ bool_t listDeleteAtBeginning(struct ListNode **list)
 {
     struct ListNode *toRemove;
 
-    if (*list == NULL) return FALSE;
+    if (listIsEmpty(*list))
+    {
+        return FALSE;
+    }
 
     // Store the actual first node
     toRemove = *list;
@@ -197,7 +230,10 @@ bool_t listDeleteAtEnding(struct ListNode **list)
     struct ListNode *temp;
 
     // Don't do anything
-    if (*list == NULL) return FALSE;
+    if (listIsEmpty(*list))
+    {
+        return FALSE;
+    }
 
     // If the list is 1 element length
     if ((*list)->next == NULL)

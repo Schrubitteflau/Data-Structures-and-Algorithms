@@ -149,12 +149,12 @@ void compareListToArray(struct ListNode *list, int array[], int length, char *te
 
 struct ListNode* getTestList1()
 {
-    return NULL;
+    return listCreateEmpty();
 }
 
 struct ListNode* getTestList2()
 {
-    struct ListNode* ret = NULL;
+    struct ListNode* ret = listCreateEmpty();
 
     listInsertAtBeginning(&ret, 1);
 

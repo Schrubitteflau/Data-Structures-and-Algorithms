@@ -13,6 +13,9 @@ struct ListNode
     struct ListNode* next;
 };
 
+struct ListNode*    listCreateNode(int data, struct ListNode *next);
+struct ListNode*    listCreateEmpty();
+bool_t              listIsEmpty(struct ListNode *list);
 void                listPrint(struct ListNode *list);
 int                 listLength(struct ListNode *list);
 bool_t              listInsertAtBeginning(struct ListNode **list, int data);
