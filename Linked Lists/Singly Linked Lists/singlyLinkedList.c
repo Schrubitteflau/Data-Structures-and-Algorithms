@@ -31,6 +31,15 @@ bool_t listIsEmpty(struct ListNode *list)
     return (list == NULL);
 }
 
+// Returns the node at the specified position of the list, or NULL if the position is out of range
+struct ListNode* listReachAtPosition(struct ListNode *list, int pos)
+{
+    // While the position we want is not reached and we are not out of range, travel to the next node
+    for (; pos-- != 0 && list != NULL; list = list->next);
+
+    return list;
+}
+
 // Print the data of the list
 // Space Complexity : O(1) for creating 1 local variable
 // Time Complexity : O(n) for traversing all the elements of the list
@@ -137,14 +146,7 @@ bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
     }
 
     // Travel all the list until we reach pos - 1 element
-
-    // Loop while we haven't reach the pos - 1 element : when pos == 0, we looped pos times, and we
-    // want to loop pos - 1 times so we check that pos never reach the value 0
-    // We also check that we didn't reach the end of the list before reaching the wanted position
-
-    // Decrement pos before the condition because if pos value is 2 (for example), we want to stop at the first element,
-    // so only one iteration.
-    for (temp = *list; --pos && temp != NULL; temp = temp->next);
+    temp = listReachAtPosition(*list, pos - 1);
 
     // pos is too far
     if (temp == NULL)
@@ -254,6 +256,35 @@ bool_t listDeleteAtEnding(struct ListNode **list)
     // And set the pointer to NULL
     temp->next = NULL;
     
+    return TRUE;
+}
+
+// Delete an element of the list at the given position
+// Space complexity : O(1)
+// Time complexity : O(n), time to reach the node
+bool_t listDeleteAtPosition(struct ListNode **list, int pos)
+{
+    struct ListNode *temp, *toFree;
+
+    // If the list is empty, or if the position is < 0, then don't do anything
+    if (listIsEmpty(*list) || pos < 0)
+    {
+        return FALSE;
+    }
+
+    // We want to reach the pos - 1 node to change it's next pointer
+    temp = listReachAtPosition(*list, pos - 1);
+    // If pos - 1 is out of range or if pos - 1 is in range but not pos (that we want do delete), dont't do anything
+    if (temp == NULL || temp->next == NULL)
+    {
+        return FALSE;
+    }
+
+    // We want to free the memory of temp->next and make temp points to actual temp->next->next (maybe NULL, we don't care)
+    toFree = temp->next;
+    temp->next = toFree->next;
+    free(toFree);
+
     return TRUE;
 }
 

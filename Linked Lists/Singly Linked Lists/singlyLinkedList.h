@@ -16,6 +16,7 @@ struct ListNode
 struct ListNode*    listCreateNode(int data, struct ListNode *next);
 struct ListNode*    listCreateEmpty();
 bool_t              listIsEmpty(struct ListNode *list);
+struct ListNode*    listReachAtPosition(struct ListNode *list, int pos);
 void                listPrint(struct ListNode *list);
 int                 listLength(struct ListNode *list);
 bool_t              listInsertAtBeginning(struct ListNode **list, int data);
@@ -25,6 +26,7 @@ struct ListNode*    listCreateFromValues(int values[], int length);
 bool_t              listCompareToArray(struct ListNode *list, int array[], int length);
 bool_t              listDeleteAtBeginning(struct ListNode **list);
 bool_t              listDeleteAtEnding(struct ListNode **list);
+bool_t              listDeleteAtPosition(struct ListNode **list, int pos);
 bool_t              listDelete(struct ListNode *list);
 
 

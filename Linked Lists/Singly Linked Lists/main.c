@@ -5,6 +5,13 @@
 #define SIZE_TAB(arr, type) (sizeof(arr) / sizeof(type))
 #define SIZE_TAB_INT(arr) SIZE_TAB(arr, int)
 
+/* Fonctions listReachLast() et listReachBeforeLast()
+boucler sans variable temporaire :travailler direct avec l'argument 
+
+Faire truc plus propre pour le test : autre fichier avec tableaux globaux extern
+
+Voir SIZE_TAB avec genre sizeof(tab) / sizeof(*tab) */
+
 struct  ListNode* getTestList1();
 struct  ListNode* getTestList2();
 struct  ListNode* getTestList3();
@@ -13,6 +20,8 @@ void    testListInsertAtBeginning(struct ListNode **list, int expected[], int ex
 void    testListInsertAtEnding(struct ListNode **list, int expected[], int expectedLength);
 void    testListInsertAtPosition(struct ListNode **list, int expected[], int expectedLength);
 void    testListDeleteAtBeginning(struct ListNode **list, int expected[], int expectedLength);
+void    testListDeleteAtEnding(struct ListNode **list, int expected[], int expectedLength);
+void    testListDeleteAtPosition(struct ListNode **list, int expected[], int expectedLength);
 
 int main(void)
 {
@@ -71,8 +80,29 @@ int main(void)
     testListDeleteAtBeginning(&list2, _4_expected2, SIZE_TAB_INT(_4_expected2));
     testListDeleteAtBeginning(&list3, _4_expected3, SIZE_TAB_INT(_4_expected3));
 
-    list1 = getTestList2();
-    listDeleteAtEnding(&list1);
+    // Testing listDeleteAtEnding() function :
+    int _5_expected1[] = { },
+        _5_expected2[] = { },
+        _5_expected3[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
+    list1 = getTestList1(),
+    list2 = getTestList2(),
+    list3 = getTestList3();
+
+    testListDeleteAtEnding(&list1, _5_expected1, SIZE_TAB_INT(_5_expected1));
+    testListDeleteAtEnding(&list2, _5_expected2, SIZE_TAB_INT(_5_expected2));
+    testListDeleteAtEnding(&list3, _5_expected3, SIZE_TAB_INT(_5_expected3));
+
+    // Testing listDeleteAtPosition() function :
+    int _6_expected1[] = { },
+        _6_expected2[] = { 1 },
+        _6_expected3[] = { 1, 2, 4, 5, 8, 9, 10 };
+    list1 = getTestList1(),
+    list2 = getTestList2(),
+    list3 = getTestList3();
+
+    testListDeleteAtPosition(&list1, _6_expected1, SIZE_TAB_INT(_6_expected1));
+    testListDeleteAtPosition(&list2, _6_expected2, SIZE_TAB_INT(_6_expected2));
+    testListDeleteAtPosition(&list3, _6_expected3, SIZE_TAB_INT(_6_expected3));
 
     return 0;
 }
@@ -137,6 +167,35 @@ void testListDeleteAtBeginning(struct ListNode **list, int expected[], int expec
 
     // Do some stuff to the list...
     listDeleteAtBeginning(list);
+
+    // Then compare the list values to the expected list of values
+    compareListToArray(*list, expected, expectedLength, testName, n++);
+}
+
+void testListDeleteAtEnding(struct ListNode **list, int expected[], int expectedLength)
+{
+    static int n = 0;
+    static char testName[] = "DeleteAtEnding";
+
+    // Do some stuff to the list...
+    listDeleteAtEnding(list);
+    listDeleteAtEnding(list);
+
+    // Then compare the list values to the expected list of values
+    compareListToArray(*list, expected, expectedLength, testName, n++);
+}
+
+void testListDeleteAtPosition(struct ListNode **list, int expected[], int expectedLength)
+{
+    static int n = 0;
+    static char testName[] = "DeleteAtPosition";
+
+    // Do some stuff to the list...
+    listDeleteAtPosition(list, -10);   // Don't do anything
+    listDeleteAtPosition(list, 10);    // 11th element
+    listDeleteAtPosition(list, 5);     // 6th element
+    listDeleteAtPosition(list, 5);     // 6th element
+    listDeleteAtPosition(list, 2);     // 3rd element
 
     // Then compare the list values to the expected list of values
     compareListToArray(*list, expected, expectedLength, testName, n++);
