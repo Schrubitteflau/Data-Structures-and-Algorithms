@@ -300,6 +300,8 @@ bool_t listDeleteAtPosition(struct ListNode **list, int pos)
 }
 
 // Delete the whole list
+// Space complexity : O(1)
+// Time complexity : O(n) for scanning the complete list of size n
 void listDelete(struct ListNode **list)
 {
     struct ListNode *current, *temp;
