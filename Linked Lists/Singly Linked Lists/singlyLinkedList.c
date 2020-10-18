@@ -40,18 +40,30 @@ struct ListNode* listReachAtPosition(struct ListNode *list, int pos)
     return list;
 }
 
+// Returns the last node, or NULL if the list is empty
+struct ListNode* listReachLast(struct ListNode *list)
+{
+    if (listIsEmpty(list))
+    {
+        return NULL;
+    }
+
+    // Travel all the list until we reach the last element
+    for (; list->next != NULL; list = list->next);
+
+    return list;
+}
+
 // Print the data of the list
 // Space Complexity : O(1) for creating 1 local variable
 // Time Complexity : O(n) for traversing all the elements of the list
 void listPrint(struct ListNode *list)
 {
-    struct ListNode *current;
-
     printf("----------\n");
 
-    for (current = list; current != NULL; current = current->next)
+    for (; list != NULL; list = list->next)
     {
-        printf("%d -> ", current->data);
+        printf("%d -> ", list->data);
     }
 
     printf("NULL\nTotal length : %d\n----------\n\n", listLength(list));
@@ -63,10 +75,9 @@ void listPrint(struct ListNode *list)
 // Time Complexity : O(n) for traversing all the elements of the list
 int listLength(struct ListNode *list)
 {
-    struct ListNode *current;
     int size = 0;
 
-    for (current = list; current != NULL; current = current->next)
+    for (; list != NULL; list = list->next)
     {
         size++;
     }
@@ -107,15 +118,15 @@ bool_t listInsertAtEnding(struct ListNode **list, int data)
         return FALSE;
     }
 
-    // If the list is empty, then the new element become the list
-    if (listIsEmpty(*list))
+    // Travel all the list until we reach the last element
+    temp = listReachLast(*list);
+
+    // If NULL is returned, then the list is empty, so the new element become the list
+    if (temp == NULL)
     {
         *list = element;
         return TRUE;
     }
-
-    // Travel all the list until we reach the last element
-    for (temp = *list; temp->next != NULL; temp = temp->next);
 
     // temp contain the current last element because temp->next is equal to NULL
     temp->next = element;
@@ -179,7 +190,7 @@ struct ListNode* listCreateFromValues(int values[], int length)
         {
             // Should never happen
             fprintf(stderr, "Error while inserting at ending... deleting list");
-            listDelete(list);
+            listDelete(&list);
             return NULL;
         }
     }
@@ -288,7 +299,18 @@ bool_t listDeleteAtPosition(struct ListNode **list, int pos)
     return TRUE;
 }
 
-bool_t listDelete(struct ListNode *list)
+// Delete the whole list
+void listDelete(struct ListNode **list)
 {
+    struct ListNode *current, *temp;
 
+    for (current = *list; current != NULL;)
+    {
+        // Before deleting a node, we need to save the next pointer
+        temp = current->next;
+        free(current);
+        current = temp;
+    }
+
+    *list = NULL;
 }
