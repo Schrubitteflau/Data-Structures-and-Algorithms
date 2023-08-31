@@ -2,7 +2,8 @@
 
 #define __SINGLY_LINKED_LIST_H__
 
-typedef enum bool_t { FALSE, TRUE } bool_t;
+#include <stdbool.h>
+//typedef enum bool_t { FALSE, TRUE } bool_t;
 
 // List element
 struct ListNode
@@ -15,20 +16,19 @@ struct ListNode
 
 struct ListNode*    listCreateNode(int data, struct ListNode *next);
 struct ListNode*    listCreateEmpty();
-bool_t              listIsEmpty(struct ListNode *list);
+bool                listIsEmpty(struct ListNode *list);
 struct ListNode*    listReachAtPosition(struct ListNode *list, int pos);
 struct ListNode*    listReachLast(struct ListNode *list);
 void                listPrint(struct ListNode *list);
 int                 listLength(struct ListNode *list);
-bool_t              listInsertAtBeginning(struct ListNode **list, int data);
-bool_t              listInsertAtEnding(struct ListNode **list, int data);
-bool_t              listInsertAtPosition(struct ListNode **list, int data, int pos);
+bool                listInsertAtBeginning(struct ListNode **list, int data);
+bool                listInsertAtEnding(struct ListNode **list, int data);
+bool                listInsertAtPosition(struct ListNode **list, int data, int pos);
 struct ListNode*    listCreateFromValues(int values[], int length);
-bool_t              listCompareToArray(struct ListNode *list, int array[], int length);
-bool_t              listDeleteAtBeginning(struct ListNode **list);
-bool_t              listDeleteAtEnding(struct ListNode **list);
-bool_t              listDeleteAtPosition(struct ListNode **list, int pos);
+bool                listCompareToArray(struct ListNode *list, int array[], int length);
+bool                listDeleteAtBeginning(struct ListNode **list);
+bool                listDeleteAtEnding(struct ListNode **list);
+bool                listDeleteAtPosition(struct ListNode **list, int pos);
 void                listDelete(struct ListNode **list);
-
 
 #endif

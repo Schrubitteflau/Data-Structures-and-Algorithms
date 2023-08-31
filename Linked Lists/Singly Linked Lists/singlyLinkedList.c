@@ -24,10 +24,10 @@ struct ListNode* listCreateNode(int data, struct ListNode *next)
     return ret;
 }
 
-// Returns TRUE if the list is empty, or FALSE
-bool_t listIsEmpty(struct ListNode *list)
+// Returns true if the list is empty, or false
+bool listIsEmpty(struct ListNode *list)
 {
-    // 1 (TRUE) or 0 (FALSE)
+    // 1 (true) or 0 (false)
     return (list == NULL);
 }
 
@@ -89,25 +89,25 @@ int listLength(struct ListNode *list)
 // Insert an element at the beginning of the list
 // Space Complexity : O(1) for creating 1 variable and allocating constant amount of memory
 // Time Complexity : O(1)
-bool_t listInsertAtBeginning(struct ListNode **list, int data)
+bool listInsertAtBeginning(struct ListNode **list, int data)
 {
     struct ListNode* element = listCreateNode(data, *list);
 
     if (element == NULL)
     {
-        return FALSE;
+        return false;
     }
 
     *list = element;
 
-    return TRUE;
+    return true;
 }
 
 
 // Insert an element at the ending of the list
 // Space Complexity : O(1)
 // Time Complexity : O(n) because travelling all the list
-bool_t listInsertAtEnding(struct ListNode **list, int data)
+bool listInsertAtEnding(struct ListNode **list, int data)
 {
     // We already know that element->next will be NULL, because it will be the last element
     struct ListNode* element = listCreateNode(data, NULL);
@@ -115,7 +115,7 @@ bool_t listInsertAtEnding(struct ListNode **list, int data)
 
     if (element == NULL)
     {
-        return FALSE;
+        return false;
     }
 
     // Travel all the list until we reach the last element
@@ -125,20 +125,20 @@ bool_t listInsertAtEnding(struct ListNode **list, int data)
     if (temp == NULL)
     {
         *list = element;
-        return TRUE;
+        return true;
     }
 
     // temp contain the current last element because temp->next is equal to NULL
     temp->next = element;
 
-    return TRUE;
+    return true;
 }
 
 // Insert an element at given position pos
 // Warning : indexation begins to 0, so 1 is the second position (like classic arrays)
 // Space complexity : O(1)
 // Time complexity : O(n) because travelling all the list in the worst case
-bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
+bool listInsertAtPosition(struct ListNode **list, int data, int pos)
 {
     struct ListNode *element;
     struct ListNode *temp;
@@ -149,11 +149,11 @@ bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
         element = listCreateNode(data, *list);
         if (element == NULL)
         {
-            return FALSE;
+            return false;
         }
 
         *list = element;
-        return TRUE;
+        return true;
     }
 
     // Travel all the list until we reach pos - 1 element
@@ -162,19 +162,19 @@ bool_t listInsertAtPosition(struct ListNode **list, int data, int pos)
     // pos is too far
     if (temp == NULL)
     {
-        return FALSE;
+        return false;
     }
 
     element = listCreateNode(data, temp->next);
     if (element == NULL)
     {
-        return FALSE;
+        return false;
     }
 
     // Now temp is the pos - 1 element, so we can change it's next pointer
     temp->next = element;
     
-    return TRUE;
+    return true;
 }
 
 // Return a new list filled with values
@@ -199,30 +199,30 @@ struct ListNode* listCreateFromValues(int values[], int length)
 }
 
 // Compare list values to values of the given array
-bool_t listCompareToArray(struct ListNode *list, int array[], int length)
+bool listCompareToArray(struct ListNode *list, int array[], int length)
 {
     for (int i = 0; i < length; i++)
     {
         if (listIsEmpty(list) || list->data != array[i])
         {
-            return FALSE;
+            return false;
         }
         list = list->next;
     }
 
-    return TRUE;
+    return true;
 }
 
 // Delete the first node of the list
 // Space complexity : O(1)
 // Time complexity : O(1)
-bool_t listDeleteAtBeginning(struct ListNode **list)
+bool listDeleteAtBeginning(struct ListNode **list)
 {
     struct ListNode *toRemove;
 
     if (listIsEmpty(*list))
     {
-        return FALSE;
+        return false;
     }
 
     // Store the actual first node
@@ -232,20 +232,20 @@ bool_t listDeleteAtBeginning(struct ListNode **list)
     // Now, free the memory of the previous first node
     free(toRemove);
 
-    return TRUE;
+    return true;
 }
 
 // Delete the last element of the list
 // Space complexity : O(1)
 // Time complexity : O(n)
-bool_t listDeleteAtEnding(struct ListNode **list)
+bool listDeleteAtEnding(struct ListNode **list)
 {
     struct ListNode *temp;
 
     // Don't do anything
     if (listIsEmpty(*list))
     {
-        return FALSE;
+        return false;
     }
 
     // If the list is 1 element length
@@ -256,7 +256,7 @@ bool_t listDeleteAtEnding(struct ListNode **list)
         // And set the list point to NULL
         *list = NULL;
 
-        return TRUE;
+        return true;
     }
 
     // Reach the before last element
@@ -267,20 +267,20 @@ bool_t listDeleteAtEnding(struct ListNode **list)
     // And set the pointer to NULL
     temp->next = NULL;
     
-    return TRUE;
+    return true;
 }
 
 // Delete an element of the list at the given position
 // Space complexity : O(1)
 // Time complexity : O(n), time to reach the node
-bool_t listDeleteAtPosition(struct ListNode **list, int pos)
+bool listDeleteAtPosition(struct ListNode **list, int pos)
 {
     struct ListNode *temp, *toFree;
 
     // If the list is empty, or if the position is < 0, then don't do anything
     if (listIsEmpty(*list) || pos < 0)
     {
-        return FALSE;
+        return false;
     }
 
     // We want to reach the pos - 1 node to change it's next pointer
@@ -288,7 +288,7 @@ bool_t listDeleteAtPosition(struct ListNode **list, int pos)
     // If pos - 1 is out of range or if pos - 1 is in range but not pos (that we want do delete), dont't do anything
     if (temp == NULL || temp->next == NULL)
     {
-        return FALSE;
+        return false;
     }
 
     // We want to free the memory of temp->next and make temp points to actual temp->next->next (maybe NULL, we don't care)
@@ -296,7 +296,7 @@ bool_t listDeleteAtPosition(struct ListNode **list, int pos)
     temp->next = toFree->next;
     free(toFree);
 
-    return TRUE;
+    return true;
 }
 
 // Delete the whole list
