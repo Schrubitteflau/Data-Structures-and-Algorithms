@@ -14,7 +14,7 @@ Avantages des tableaux statiques :
 
 * Simples et faciles à utiliser
 
-* Puisqu'ils sont stockés de manière contigus, ils bénéficient d'une optimisation par les CPU
+* Puisqu'ils sont stockés de manière contigus, ils bénéficient d'une optimisation du CPU
 
 * Accès rapide et constant aux éléments car l'adresse mémoire de l'élément est calculée :
   
