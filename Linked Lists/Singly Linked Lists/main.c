@@ -2,6 +2,29 @@
 
 #include "singlyLinkedList.h"
 
+CreateListNodeType(int)
+CreateListNodeDeclaration(int)
+CreateListNodeImplementation(int)
+
+#define ListNode ListNode_int
+
+#define listCreateNode(...) listCreateNode_int(__VA_ARGS__)
+#define listCreateEmpty(...) listCreateEmpty_int(__VA_ARGS__)
+#define listIsEmpty(...) listIsEmpty_int(__VA_ARGS__)
+#define listReachAtPosition(...) listReachAtPosition_int(__VA_ARGS__)
+#define listReachLast(...) listReachLast_int(__VA_ARGS__)
+#define listPrint(...) listPrint_int(__VA_ARGS__)
+#define listLength(...) listLength_int(__VA_ARGS__)
+#define listInsertAtBeginning(...) listInsertAtBeginning_int(__VA_ARGS__)
+#define listInsertAtEnding(...) listInsertAtEnding_int(__VA_ARGS__)
+#define listInsertAtPosition(...) listInsertAtPosition_int(__VA_ARGS__)
+#define listCreateFromValues(...) listCreateFromValues_int(__VA_ARGS__)
+#define listCompareToArray(...) listCompareToArray_int(__VA_ARGS__)
+#define listDeleteAtBeginning(...) listDeleteAtBeginning_int(__VA_ARGS__)
+#define listDeleteAtEnding(...) listDeleteAtEnding_int(__VA_ARGS__)
+#define listDeleteAtPosition(...) listDeleteAtPosition_int(__VA_ARGS__)
+#define listDelete(...) listDelete_int(__VA_ARGS__)
+
 #define SIZE_TAB(arr) (sizeof(arr) / sizeof(arr[0]))
 
 struct  ListNode* getTestList1();
